@@ -1,4 +1,4 @@
-package ca.caffee.eventsearch;
+package ca.caffee.eventsearch.calendar;
 
 import android.database.Cursor;
 

@@ -1,6 +1,7 @@
 package ca.caffee.eventsearch;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,8 +9,13 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
+import ca.caffee.eventsearch.calendar.CalendarObject;
+import ca.caffee.eventsearch.calendar.Event;
+import ca.caffee.eventsearch.calendar.EventManager;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -78,6 +84,25 @@ public class MainActivity extends AppCompatActivity {
     }
   }
 
+  @Override public boolean onCreateOptionsMenu(Menu menu) {
+    MenuInflater inflater = getMenuInflater();
+    inflater.inflate(R.menu.top_menu, menu);
+    return true;
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case R.id.action_settings:
+        return true;
+      case R.id.action_search:
+        Intent intent = new Intent(this, SearchActivity.class);
+        MainActivity.this.startActivity(intent);
+        return true;
+      default:
+        return super.onOptionsItemSelected(item);
+    }
+  }
+
   private void allEventsCalendars(ArrayList<CalendarObject> calendarObjects) {
     for (CalendarObject calendarObject : calendarObjects) {
       if (calendarObject != null && (calendarObject.accessLevel == 700 || calendarObject.accessLevel == 800)) {
@@ -85,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
         getEvents(calendarObject.id);
       } else if (calendarObject != null && calendarObject.accessLevel == 200) {
         //Friends calendar
+        getEvents(calendarObject.id);
       }
     }
   }

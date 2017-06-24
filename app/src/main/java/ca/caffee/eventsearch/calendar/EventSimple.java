@@ -1,4 +1,4 @@
-package ca.caffee.eventsearch;
+package ca.caffee.eventsearch.calendar;
 
 /**
  * Created by mtajc on 24.06.2017.
