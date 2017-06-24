@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "195972877598",
+    "firebase_url": "https://hackai-eventsearch.firebaseio.com",
+    "project_id": "hackai-eventsearch",
+    "storage_bucket": "hackai-eventsearch.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:195972877598:android:c3388951410dda49",
+        "android_client_info": {
+          "package_name": "ca.caffee.eventsearch"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "195972877598-1a029qa0hfgkanfq2vitlkscreoqc8le.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ca.caffee.eventsearch",
+            "certificate_hash": "52fbc3c0038037016ad57628c5e6aa7aac273634"
+          }
+        },
+        {
+          "client_id": "195972877598-k7onk1a78k7hg1042laup23od4psc9n8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyEl_51HZAaYEo6tWkYDqbebH6PiU2qt0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "195972877598-k7onk1a78k7hg1042laup23od4psc9n8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
