@@ -7,12 +7,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.widget.FrameLayout;
+import butterknife.BindView;
 import ca.caffee.eventsearch.calendar.CalendarObject;
 import ca.caffee.eventsearch.calendar.Event;
 import ca.caffee.eventsearch.calendar.EventManager;
@@ -22,23 +24,41 @@ import java.util.concurrent.TimeUnit;
 public class MainActivity extends AppCompatActivity {
   private static final String TAG = MainActivity.class.getSimpleName();
 
-  private TextView mTextMessage;
+  @BindView(R.id.fragment_container) FrameLayout fragmentContainer;
   private EventManager eventManager;
   private static final int requestCodeCalendar = 123;
+  private Fragment currentFragment;
 
   private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener =
       new BottomNavigationView.OnNavigationItemSelectedListener() {
-
         @Override public boolean onNavigationItemSelected(@NonNull MenuItem item) {
           switch (item.getItemId()) {
-            case R.id.navigation_home:
-              mTextMessage.setText(R.string.title_home);
+            case R.id.navigation_events:
+              if (currentFragment != null && currentFragment instanceof EventListFragment) {
+                currentFragment = new EventListFragment();
+                getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, currentFragment)
+                    .addToBackStack("events")
+                    .commitAllowingStateLoss();
+              }
               return true;
-            case R.id.navigation_dashboard:
-              mTextMessage.setText(R.string.title_dashboard);
+            case R.id.navigation_tickets:
+              if (currentFragment != null && currentFragment instanceof EventListFragment) {
+                currentFragment = new EventListFragment();
+                getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, currentFragment)
+                    .addToBackStack("tickets")
+                    .commitAllowingStateLoss();
+              }
               return true;
-            case R.id.navigation_notifications:
-              mTextMessage.setText(R.string.title_notifications);
+            case R.id.navigation_other:
+              if (currentFragment != null && currentFragment instanceof EventListFragment) {
+                currentFragment = new EventListFragment();
+                getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_container, currentFragment)
+                    .addToBackStack("other")
+                    .commitAllowingStateLoss();
+              }
               return true;
           }
           return false;
@@ -49,10 +69,13 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    mTextMessage = (TextView) findViewById(R.id.message);
     BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
     navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     eventManager = new EventManager(this);
+    if (savedInstanceState == null) {
+      currentFragment = new EventListFragment();
+      getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, currentFragment).commitAllowingStateLoss();
+    }
   }
 
   @Override protected void onResume() {
