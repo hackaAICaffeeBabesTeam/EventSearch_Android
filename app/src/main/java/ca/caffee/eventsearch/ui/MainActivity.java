@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
   @BindView(R.id.fragment_container) FrameLayout fragmentContainer;
   private static final int requestCodeCalendar = 123;
+  private ArrayList<Fragment> fragments = new ArrayList<>();
   private Fragment currentFragment;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +36,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
     navigation.setOnNavigationItemSelectedListener(this);
     EventManager eventManager = new EventManager(this);
+    setFragments();
     if (savedInstanceState == null) {
-      currentFragment = EventListFragment.newInstance();
+      currentFragment = fragments.get(0);
       getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, currentFragment).commitAllowingStateLoss();
     }
   }
@@ -93,32 +95,39 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     switch (menuItem.getItemId()) {
       case R.id.navigation_events:
         if (currentFragment != null && !(currentFragment instanceof EventListFragment)) {
-          currentFragment = EventListFragment.newInstance();
+          currentFragment = fragments.get(0);
           getSupportFragmentManager().beginTransaction()
-              .add(R.id.fragment_container, currentFragment)
+              .replace(R.id.fragment_container, currentFragment)
               .addToBackStack("events")
               .commitAllowingStateLoss();
         }
         return true;
       case R.id.navigation_tickets:
-        if (currentFragment != null && !(currentFragment instanceof EventListFragment)) {
-          currentFragment = EventListFragment.newInstance();
+        if (currentFragment != null && !(currentFragment instanceof GoingFragment)) {
+          currentFragment = fragments.get(1);
           getSupportFragmentManager().beginTransaction()
-              .add(R.id.fragment_container, currentFragment)
-              .addToBackStack("tickets")
+              .replace(R.id.fragment_container, currentFragment)
+              .addToBackStack("going")
               .commitAllowingStateLoss();
         }
         return true;
       case R.id.navigation_other:
         if (currentFragment != null && !(currentFragment instanceof EventListFragment)) {
-          currentFragment = EventListFragment.newInstance();
+          currentFragment = fragments.get(2);
           getSupportFragmentManager().beginTransaction()
-              .add(R.id.fragment_container, currentFragment)
+              .replace(R.id.fragment_container, currentFragment)
               .addToBackStack("other")
               .commitAllowingStateLoss();
         }
         return true;
     }
     return false;
+  }
+
+  private void setFragments() {
+    fragments.clear();
+    fragments.add(EventListFragment.newInstance());
+    fragments.add(GoingFragment.newInstance());
+    fragments.add(EventListFragment.newInstance());
   }
 }

@@ -14,41 +14,25 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ca.caffee.eventsearch.R;
 import ca.caffee.eventsearch.calendar.Event;
-import ca.caffee.eventsearch.events.EventEventsRefreshed;
-import ca.caffee.eventsearch.ui.lists.AdapterItem;
-import ca.caffee.eventsearch.ui.lists.AdapterMain;
-import ca.caffee.eventsearch.ui.lists.ItemEventSmall;
-import ca.caffee.eventsearch.ui.lists.ItemEventTop;
+import ca.caffee.eventsearch.ui.lists.AdapterGoing;
+import ca.caffee.eventsearch.ui.lists.ItemEventGoing;
 import java.util.ArrayList;
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class EventListFragment extends Fragment {
-  private static final String TAG = EventListFragment.class.getSimpleName();
+public class GoingFragment extends Fragment {
+  private static final String TAG = GoingFragment.class.getSimpleName();
 
   @BindView(R.id.recyclerView) RecyclerView recyclerView;
   private ArrayList<Event> events = new ArrayList<>();
-  private AdapterMain adapterEvents;
+  private AdapterGoing adapterEvents;
 
-  public static EventListFragment newInstance() {
-    EventListFragment myFragment = new EventListFragment();
+  public static GoingFragment newInstance() {
+    GoingFragment myFragment = new GoingFragment();
     Bundle args = new Bundle();
     myFragment.setArguments(args);
     return myFragment;
-  }
-
-  @Override public void onStart() {
-    super.onStart();
-    EventBus.getDefault().register(this);
-  }
-
-  @Override public void onStop() {
-    super.onStop();
-    EventBus.getDefault().unregister(this);
   }
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -80,34 +64,14 @@ public class EventListFragment extends Fragment {
     ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
     itemTouchHelper.attachToRecyclerView(recyclerView);
     recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-    adapterEvents = new AdapterMain(getActivity());
+    adapterEvents = new AdapterGoing(getActivity());
     recyclerView.setAdapter(adapterEvents);
     recyclerView.setHasFixedSize(true);
-    if (events != null && events.size() > 0) {
-      setEvents(events);
-    }
-  }
 
-  @Subscribe(threadMode = ThreadMode.MAIN) public void onMessageEvent(EventEventsRefreshed eventEventsRefreshed) {
-    if (eventEventsRefreshed.events.size() > 0) {
-      this.events = eventEventsRefreshed.events;
-      setEvents(this.events);
+    adapterEvents.adapterItems.clear();
+    for (int i = 0; i < 10; i++) {
+      adapterEvents.adapterItems.add(new ItemEventGoing());
     }
-  }
-
-  private void setEvents(ArrayList<Event> events) {
-    ArrayList<AdapterItem> itemsToAdd = new ArrayList<>();
-    for (Event event : events) {
-      if (itemsToAdd.size() == 0) {
-        itemsToAdd.add(new ItemEventTop(event));
-      } else {
-        itemsToAdd.add(new ItemEventSmall(event));
-      }
-    }
-    if (adapterEvents != null) {
-      adapterEvents.adapterItems.clear();
-      adapterEvents.adapterItems.addAll(itemsToAdd);
-      adapterEvents.notifyDataSetChanged();
-    }
+    adapterEvents.notifyDataSetChanged();
   }
 }
