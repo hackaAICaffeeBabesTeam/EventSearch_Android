@@ -15,11 +15,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import ca.caffee.eventsearch.calendar.CalendarObject;
 import ca.caffee.eventsearch.calendar.Event;
 import ca.caffee.eventsearch.calendar.EventManager;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
+import org.greenrobot.eventbus.EventBus;
 
 public class MainActivity extends AppCompatActivity {
   private static final String TAG = MainActivity.class.getSimpleName();
@@ -68,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+    ButterKnife.bind(this);
 
     BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
     navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -133,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
         getEvents(calendarObject.id);
       } else if (calendarObject != null && calendarObject.accessLevel == 200) {
         //Friends calendar
-        getEvents(calendarObject.id);
+        //getEvents(calendarObject.id);
       }
     }
   }
@@ -143,5 +146,6 @@ public class MainActivity extends AppCompatActivity {
     long timeEnd = System.currentTimeMillis() + TimeUnit.DAYS.toMillis(7);
     ArrayList<Event> eventList = EventManager.getEventList(this, calendarId, timeStart, timeEnd);
     Log.d(TAG, "getEvents: ");
+    EventBus.getDefault().post(new EventEventsRefreshed(eventList));
   }
 }
