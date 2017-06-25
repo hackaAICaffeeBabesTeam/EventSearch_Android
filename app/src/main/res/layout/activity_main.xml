@@ -13,6 +13,7 @@
       android:id="@+id/fragment_container"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
+      android:layout_above="@+id/navigation"
       />
 
   <android.support.design.widget.BottomNavigationView
@@ -23,6 +24,8 @@
       android:layout_marginEnd="0dp"
       android:layout_marginStart="0dp"
       android:background="?android:attr/windowBackground"
+      android:elevation="20dp"
+      app:elevation="20dp"
       app:menu="@menu/navigation"
       />
 
