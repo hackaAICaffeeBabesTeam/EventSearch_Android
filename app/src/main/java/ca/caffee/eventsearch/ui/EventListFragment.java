@@ -5,9 +5,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ca.caffee.eventsearch.R;
@@ -26,6 +28,8 @@ import org.greenrobot.eventbus.ThreadMode;
  * A simple {@link Fragment} subclass.
  */
 public class EventListFragment extends Fragment {
+  private static final String TAG = EventListFragment.class.getSimpleName();
+
   @BindView(R.id.recyclerView) RecyclerView recyclerView;
   private ArrayList<Event> events = new ArrayList<>();
   private AdapterMain adapterEvents;
@@ -60,6 +64,21 @@ public class EventListFragment extends Fragment {
   }
 
   private void setRecyclerView() {
+    ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+      @Override public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder viewHolder1) {
+        return false;
+      }
+
+      @Override public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+        if (adapterEvents != null) {
+          adapterEvents.adapterItems.remove(viewHolder.getAdapterPosition());
+          adapterEvents.notifyItemRangeRemoved(viewHolder.getAdapterPosition(), 1);
+          Toast.makeText(getActivity(), "Event was removed", Toast.LENGTH_SHORT).show();
+        }
+      }
+    };
+    ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+    itemTouchHelper.attachToRecyclerView(recyclerView);
     recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     adapterEvents = new AdapterMain(getActivity());
     recyclerView.setAdapter(adapterEvents);
