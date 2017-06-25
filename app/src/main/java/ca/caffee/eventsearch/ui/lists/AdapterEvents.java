@@ -12,7 +12,7 @@ import ca.caffee.eventsearch.R;
 import ca.caffee.eventsearch.calendar.Event;
 import java.util.ArrayList;
 
-public class AdapterEvents extends RecyclerView.Adapter<AdapterEvents.ViewHolderStation> {
+public class AdapterEvents extends RecyclerView.Adapter<AdapterEvents.ViewHolderEvent> {
   public ArrayList<Event> events = new ArrayList<>();
   private Activity context;
 
@@ -20,12 +20,12 @@ public class AdapterEvents extends RecyclerView.Adapter<AdapterEvents.ViewHolder
     this.context = context;
   }
 
-  @Override public ViewHolderStation onCreateViewHolder(ViewGroup parent, int viewType) {
-    View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_event, parent, false);
-    return new ViewHolderStation(itemView);
+  @Override public ViewHolderEvent onCreateViewHolder(ViewGroup parent, int viewType) {
+    View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_event_small, parent, false);
+    return new ViewHolderEvent(itemView);
   }
 
-  @Override public void onBindViewHolder(final ViewHolderStation holder, int position) {
+  @Override public void onBindViewHolder(final ViewHolderEvent holder, int position) {
     final Event event = events.get(position);
     holder.title.setText(event.title);
   }
@@ -34,11 +34,11 @@ public class AdapterEvents extends RecyclerView.Adapter<AdapterEvents.ViewHolder
     return events.size();
   }
 
-  public class ViewHolderStation extends RecyclerView.ViewHolder {
+  public class ViewHolderEvent extends RecyclerView.ViewHolder {
 
     @BindView(R.id.title) public TextView title;
 
-    public ViewHolderStation(View itemView) {
+    public ViewHolderEvent(View itemView) {
       super(itemView);
       ButterKnife.bind(this, itemView);
     }

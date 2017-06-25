@@ -1,8 +1,7 @@
-package pl.tajchert.canary.ui;
+package ca.caffee.eventsearch.ui.lists;
 
 import android.content.Context;
 import android.view.View;
-import pl.tajchert.canary.ui.adapteritems.AdapterItem;
 
 public interface DataViewHolder {
   public void setData(int position, AdapterItem adapterItem, Context context);

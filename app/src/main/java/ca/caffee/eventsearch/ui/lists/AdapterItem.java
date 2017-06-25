@@ -1,4 +1,4 @@
-package ca.caffee.eventsearch.lists;
+package ca.caffee.eventsearch.ui.lists;
 
 public interface AdapterItem {
   public int getViewType();

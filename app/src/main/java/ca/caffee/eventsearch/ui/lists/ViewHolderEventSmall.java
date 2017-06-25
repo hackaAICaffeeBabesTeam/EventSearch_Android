@@ -12,19 +12,19 @@ import ca.caffee.eventsearch.R;
  * Created by mtajc on 25.06.2017.
  */
 
-public class ViewHolderEventTop extends RecyclerView.ViewHolder implements DataViewHolder {
+public class ViewHolderEventSmall extends RecyclerView.ViewHolder implements DataViewHolder {
   @BindView(R.id.title) public TextView textViewTitle;
 
-  public ViewHolderEventTop(View itemView) {
+  public ViewHolderEventSmall(View itemView) {
     super(itemView);
     ButterKnife.bind(this, itemView);
   }
 
   @Override public void setData(int position, AdapterItem adapterItem, Context context) {
-    ItemEventTop eventTop = (ItemEventTop) adapterItem;
-    if (eventTop != null) {
-      if (eventTop.event != null && eventTop.event.title != null) {
-        textViewTitle.setText(eventTop.event.title);
+    ItemEventSmall eventSmall = (ItemEventSmall) adapterItem;
+    if (eventSmall != null) {
+      if (eventSmall.event != null && eventSmall.event.title != null) {
+        textViewTitle.setText(eventSmall.event.title);
       }
     }
   }
