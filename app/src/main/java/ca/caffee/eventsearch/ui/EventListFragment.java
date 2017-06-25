@@ -1,8 +1,10 @@
 package ca.caffee.eventsearch.ui;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -27,9 +29,10 @@ import org.greenrobot.eventbus.ThreadMode;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class EventListFragment extends Fragment {
+public class EventListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
   private static final String TAG = EventListFragment.class.getSimpleName();
 
+  @BindView(R.id.swipeRefresh) SwipeRefreshLayout swipeRefreshLayout;
   @BindView(R.id.recyclerView) RecyclerView recyclerView;
   private ArrayList<Event> events = new ArrayList<>();
   private AdapterMain adapterEvents;
@@ -61,6 +64,7 @@ public class EventListFragment extends Fragment {
   @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     setRecyclerView();
+    swipeRefreshLayout.setOnRefreshListener(this);
   }
 
   private void setRecyclerView() {
@@ -83,6 +87,10 @@ public class EventListFragment extends Fragment {
     adapterEvents = new AdapterMain(getActivity());
     recyclerView.setAdapter(adapterEvents);
     recyclerView.setHasFixedSize(true);
+  }
+
+  private void setDummyData() {
+    events.clear();
     events.add(new Event(
         "For 14 years XLIVE has been providing resources and information to the live event and eSports industries. The XLIVE eSports Summit is the first senior level forum of its kind that will bring together eSports industry stakeholders and traditional professional sports franchises under one roof to discuss the impact that eSports will have on the future of the sports and entertainment industries. This event will convene eSports team owners/players, venue operators, tournament organizers, broadcasters, sponsors, agencies, legal experts, consultants, product developers, venture capitalists with professional sports teams investing in eSports for an intimate event focused on the business and technological evolution of the rapidly evolving eSports market.",
         "XLIVE Esports Summit",
@@ -105,7 +113,6 @@ public class EventListFragment extends Fragment {
         "https://s.evbuc.com/https_proxy?url=http%3A%2F%2Fwww.digitalmediawire.net%2F2017email%2Fcb%2FNYME%2FIMAGES%2Fheader-games.png&sig=ADR2i7-jKi8rZMH9SdKZDzdbbqpDhegIug",
         "799 km", "$ 499", "36 Battery Place \n" + "New York", "https://www.eventbrite.com/e/ny-games-conference-nyme-2017-tickets-34641917909",
         null));
-
     if (events != null && events.size() > 0) {
       setEvents(events);
     }
@@ -131,6 +138,25 @@ public class EventListFragment extends Fragment {
       adapterEvents.adapterItems.clear();
       adapterEvents.adapterItems.addAll(itemsToAdd);
       adapterEvents.notifyDataSetChanged();
+    }
+  }
+
+  @Override public void onRefresh() {
+    if (events.size() > 0) {
+      events.clear();
+      adapterEvents.adapterItems.clear();
+      adapterEvents.notifyDataSetChanged();
+      swipeRefreshLayout.setRefreshing(false);
+    } else {
+      Handler handler = new Handler();
+      handler.postDelayed(new Runnable() {
+        public void run() {
+          if (swipeRefreshLayout != null) {
+            swipeRefreshLayout.setRefreshing(false);
+          }
+          setDummyData();
+        }
+      }, 2000);
     }
   }
 }
