@@ -59,4 +59,12 @@
       android:src="@drawable/ic_local_activity_white_24dp"
       app:fabSize="normal"
       />
+
+  <ImageView
+      android:layout_width="match_parent"
+      android:layout_height="100dp"
+      android:layout_alignParentBottom="true"
+      android:scaleType="centerCrop"
+      android:src="@drawable/map"
+      />
 </RelativeLayout>

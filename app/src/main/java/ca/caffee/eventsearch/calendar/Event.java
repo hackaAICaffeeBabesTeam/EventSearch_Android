@@ -51,6 +51,22 @@ public class Event {
   public String location;
   public int guestsInviteOthers;
   public int guestsModify;
+  public String url;
+  public String distance;
+  public String price;
+  public String stubHubLink;
+  public String eventbriteLink;
+
+  public Event(String description, String title, String url, String distance, String price, String location, String eventbriteLink, String stubHubLink) {
+    this.description = description;
+    this.title = title;
+    this.url = url;
+    this.distance = distance;
+    this.price = price;
+    this.location = location;
+    this.eventbriteLink = eventbriteLink;
+    this.stubHubLink = stubHubLink;
+  }
 
   public Event() {
   }

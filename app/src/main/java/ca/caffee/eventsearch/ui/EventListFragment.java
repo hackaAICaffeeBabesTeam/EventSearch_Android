@@ -83,6 +83,10 @@ public class EventListFragment extends Fragment {
     adapterEvents = new AdapterMain(getActivity());
     recyclerView.setAdapter(adapterEvents);
     recyclerView.setHasFixedSize(true);
+    events.add(new Event("XLIVE Esports Summit",
+        "For 14 years XLIVE has been providing resources and information to the live event and eSports industries. The XLIVE eSports Summit is the first senior level forum of its kind that will bring together eSports industry stakeholders and traditional professional sports franchises under one roof to discuss the impact that eSports will have on the future of the sports and entertainment industries. This event will convene eSports team owners/players, venue operators, tournament organizers, broadcasters, sponsors, agencies, legal experts, consultants, product developers, venture capitalists with professional sports teams investing in eSports for an intimate event focused on the business and technological evolution of the rapidly evolving eSports market.",
+        "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F27743491%2F182267628368%2F1%2Foriginal.jpg?w=800&rect=0%2C408%2C3264%2C1632&s=ba1dbc30381cd4d07e76837cb5483264",
+        "790 km", "$795", "139 West 26th Street\n" + "New York", "https://www.eventbrite.com/e/xlive-esports-summit-tickets-31485782824", ""));
     if (events != null && events.size() > 0) {
       setEvents(events);
     }
@@ -91,7 +95,7 @@ public class EventListFragment extends Fragment {
   @Subscribe(threadMode = ThreadMode.MAIN) public void onMessageEvent(EventEventsRefreshed eventEventsRefreshed) {
     if (eventEventsRefreshed.events.size() > 0) {
       this.events = eventEventsRefreshed.events;
-      setEvents(this.events);
+      //setEvents(this.events);
     }
   }
 

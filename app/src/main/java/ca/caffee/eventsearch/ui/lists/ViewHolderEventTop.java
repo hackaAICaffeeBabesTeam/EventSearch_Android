@@ -47,15 +47,29 @@ public class ViewHolderEventTop extends RecyclerView.ViewHolder implements DataV
       }
       textViewDistance.setText(event.distance);
       textViewPrice.setText(event.price);
-      Picasso.with(imageView.getContext()).load(event.urlFake).into(imageView);
+      if (event.event.url != null) {
+        Picasso.with(imageView.getContext()).load(event.event.url).into(imageView);
+      } else {
+        Picasso.with(imageView.getContext()).load(event.urlFake).into(imageView);
+      }
       btnNavigate.setOnClickListener(new View.OnClickListener() {
         @Override public void onClick(View view) {
-          Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q=New+York+NY"));
+          String address = "New+York+NY";
+          if (event.event.location != null) {
+            address = event.event.location;
+            address = address.replace(" ", "+");
+          }
+          Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q=" + address));
           btnNavigate.getContext().startActivity(intent);
         }
       });
       btnBuy.setOnClickListener(new View.OnClickListener() {
         @Override public void onClick(View view) {
+          if (event.event.stubHubLink != null) {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(event.event.stubHubLink));
+            btnBuy.getContext().startActivity(intent);
+            return;
+          }
           try {
             Intent intent = btnBuy.getContext().getPackageManager().getLaunchIntentForPackage("com.stubhub");
             btnBuy.getContext().startActivity(intent);

@@ -39,7 +39,13 @@ public class EventActivity extends AppCompatActivity {
       Log.d(TAG, "onCreate: ");
     } else if (getIntent() != null && getIntent().hasExtra("eventTop")) {
       ItemEventTop itemEventTop = Parcels.unwrap(getIntent().getParcelableExtra("eventTop"));
-      setEvent(itemEventTop.urlFake, itemEventTop.event.title, itemEventTop.event.description);
+      String url = "";
+      if (itemEventTop.event.url != null) {
+        url = itemEventTop.event.url;
+      } else {
+        url = itemEventTop.urlFake;
+      }
+      setEvent(url, itemEventTop.event.title, itemEventTop.event.description);
       Log.d(TAG, "onCreate: ");
     } else if (getIntent() != null && getIntent().hasExtra("eventGoing")) {
       ItemEventGoing itemEventGoing = Parcels.unwrap(getIntent().getParcelableExtra("eventGoing"));
