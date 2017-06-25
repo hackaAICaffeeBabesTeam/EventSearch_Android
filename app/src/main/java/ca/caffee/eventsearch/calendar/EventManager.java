@@ -9,7 +9,10 @@ import android.net.Uri;
 import android.provider.CalendarContract;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+import ca.caffee.eventsearch.events.EventEventsRefreshed;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by mtajc on 24.06.2017.
@@ -111,5 +114,24 @@ public class EventManager {
       Log.e(TAG, "getEventList problem with: " + e.getLocalizedMessage());
     }
     return events;
+  }
+
+  public static void allEventsCalendars(ArrayList<CalendarObject> calendarObjects, Context context) {
+    for (CalendarObject calendarObject : calendarObjects) {
+      if (calendarObject != null && (calendarObject.accessLevel == 700 || calendarObject.accessLevel == 800)) {
+        //My local calendars
+        getEvents(calendarObject.id, context);
+      } else if (calendarObject != null && calendarObject.accessLevel == 200) {
+        //Friends calendar
+        //getEvents(calendarObject.id);
+      }
+    }
+  }
+
+  public static void getEvents(int calendarId, Context context) {
+    long timeStart = System.currentTimeMillis() - TimeUnit.DAYS.toMillis(7);
+    long timeEnd = System.currentTimeMillis() + TimeUnit.DAYS.toMillis(7);
+    ArrayList<Event> eventList = EventManager.getEventList(context, calendarId, timeStart, timeEnd);
+    EventBus.getDefault().post(new EventEventsRefreshed(eventList));
   }
 }

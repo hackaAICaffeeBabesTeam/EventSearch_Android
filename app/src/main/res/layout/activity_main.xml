@@ -6,7 +6,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ca.caffee.eventsearch.MainActivity"
+    tools:context="ca.caffee.eventsearch.ui.MainActivity"
     >
 
   <FrameLayout
@@ -17,8 +17,9 @@
 
   <android.support.design.widget.BottomNavigationView
       android:id="@+id/navigation"
-      android:layout_width="0dp"
+      android:layout_width="match_parent"
       android:layout_height="wrap_content"
+      android:layout_alignParentBottom="true"
       android:layout_marginEnd="0dp"
       android:layout_marginStart="0dp"
       android:background="?android:attr/windowBackground"

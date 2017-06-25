@@ -1,4 +1,4 @@
-package ca.caffee.eventsearch;
+package ca.caffee.eventsearch.ui.lists;
 
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import ca.caffee.eventsearch.R;
 import ca.caffee.eventsearch.calendar.Event;
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package ca.caffee.eventsearch;
+package ca.caffee.eventsearch.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,7 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import ca.caffee.eventsearch.R;
 import ca.caffee.eventsearch.calendar.Event;
+import ca.caffee.eventsearch.events.EventEventsRefreshed;
+import ca.caffee.eventsearch.ui.lists.AdapterItem;
+import ca.caffee.eventsearch.ui.lists.AdapterMain;
+import ca.caffee.eventsearch.ui.lists.ItemEventSmall;
+import ca.caffee.eventsearch.ui.lists.ItemEventTop;
 import java.util.ArrayList;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -22,7 +28,7 @@ import org.greenrobot.eventbus.ThreadMode;
 public class EventListFragment extends Fragment {
   @BindView(R.id.recyclerView) RecyclerView recyclerView;
   private ArrayList<Event> events = new ArrayList<>();
-  private AdapterEvents adapterEvents;
+  private AdapterMain adapterEvents;
 
   public static EventListFragment newInstance() {
     EventListFragment myFragment = new EventListFragment();
@@ -50,19 +56,31 @@ public class EventListFragment extends Fragment {
 
   @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+    setRecyclerView();
+  }
 
+  private void setRecyclerView() {
     recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-    adapterEvents = new AdapterEvents(getActivity());
+    adapterEvents = new AdapterMain(getActivity());
     recyclerView.setAdapter(adapterEvents);
     recyclerView.setHasFixedSize(true);
   }
 
   @Subscribe(threadMode = ThreadMode.MAIN) public void onMessageEvent(EventEventsRefreshed eventEventsRefreshed) {
-    if (adapterEvents != null && eventEventsRefreshed.events.size() > 0) {
-      adapterEvents.events.clear();
-      adapterEvents.events.addAll(eventEventsRefreshed.events);
-      adapterEvents.notifyDataSetChanged();
+    ArrayList<AdapterItem> itemsToAdd = new ArrayList<>();
+    if (eventEventsRefreshed.events.size() > 0) {
+      for (Event event : eventEventsRefreshed.events) {
+        if (itemsToAdd.size() == 0) {
+          itemsToAdd.add(new ItemEventTop(event));
+        } else {
+          itemsToAdd.add(new ItemEventSmall(event));
+        }
+      }
+      if (adapterEvents != null) {
+        adapterEvents.adapterItems.clear();
+        adapterEvents.adapterItems.addAll(itemsToAdd);
+        adapterEvents.notifyDataSetChanged();
+      }
     }
   }
 }

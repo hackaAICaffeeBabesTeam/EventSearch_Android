@@ -1,4 +1,4 @@
-package ca.caffee.eventsearch;
+package ca.caffee.eventsearch.events;
 
 import ca.caffee.eventsearch.calendar.Event;
 import java.util.ArrayList;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
  */
 
 public class EventEventsRefreshed {
-  ArrayList<Event> events = new ArrayList<>();
+  public ArrayList<Event> events = new ArrayList<>();
 
   public EventEventsRefreshed(ArrayList<Event> events) {
     this.events = events;
