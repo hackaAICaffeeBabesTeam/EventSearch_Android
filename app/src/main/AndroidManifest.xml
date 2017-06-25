@@ -20,7 +20,13 @@
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
-    <activity android:name=".ui.SearchActivity">
+    <activity
+        android:name=".ui.SearchActivity"
+        android:parentActivityName=".ui.MainActivity">
+    </activity>
+    <activity
+        android:name=".ui.EventActivity"
+        android:parentActivityName=".ui.MainActivity">
     </activity>
   </application>
 

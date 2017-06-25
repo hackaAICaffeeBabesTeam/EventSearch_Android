@@ -11,11 +11,13 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
+import org.parceler.Parcel;
 
 /**
  * Created by mtajc on 24.06.2017.
  */
 
+@Parcel
 public class Event {
   private static final String TAG = Event.class.getSimpleName();
   public long id;
@@ -49,6 +51,9 @@ public class Event {
   public String location;
   public int guestsInviteOthers;
   public int guestsModify;
+
+  public Event() {
+  }
 
   public static Event getEventObject(Cursor cursor) {
     Event eventNew = new Event();

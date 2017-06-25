@@ -1,14 +1,18 @@
 package ca.caffee.eventsearch.ui.lists;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ca.caffee.eventsearch.R;
+import ca.caffee.eventsearch.ui.EventActivity;
 import com.squareup.picasso.Picasso;
+import org.parceler.Parcels;
 
 /**
  * Created by mtajc on 25.06.2017.
@@ -20,6 +24,7 @@ public class ViewHolderEventSmall extends RecyclerView.ViewHolder implements Dat
   @BindView(R.id.distance) public TextView textViewDistance;
   @BindView(R.id.price) public TextView textViewPrice;
   @BindView(R.id.image) public ImageView imageView;
+  @BindView(R.id.mainRelative) public RelativeLayout relativeLayout;
 
   public ViewHolderEventSmall(View itemView) {
     super(itemView);
@@ -27,7 +32,7 @@ public class ViewHolderEventSmall extends RecyclerView.ViewHolder implements Dat
   }
 
   @Override public void setData(int position, AdapterItem adapterItem, Context context) {
-    ItemEventSmall event = (ItemEventSmall) adapterItem;
+    final ItemEventSmall event = (ItemEventSmall) adapterItem;
     if (event != null && event.event != null) {
       if (event.event.title != null) {
         textViewTitle.setText(event.event.title);
@@ -38,6 +43,13 @@ public class ViewHolderEventSmall extends RecyclerView.ViewHolder implements Dat
       textViewDistance.setText(event.distance);
       textViewPrice.setText(event.price);
       Picasso.with(imageView.getContext()).load(event.urlFake).into(imageView);
+      relativeLayout.setOnClickListener(new View.OnClickListener() {
+        @Override public void onClick(View view) {
+          Intent intent = new Intent(relativeLayout.getContext(), EventActivity.class);
+          intent.putExtra("eventSmall", Parcels.wrap(event));
+          relativeLayout.getContext().startActivity(intent);
+        }
+      });
     }
   }
 
