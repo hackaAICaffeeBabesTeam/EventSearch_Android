@@ -7,7 +7,7 @@ import java.util.Random;
  * Created by mtajc on 25.06.2017.
  */
 
-public class RandomImageGenerator {
+public class RandomGenerator {
   static ArrayList<String> urls = new ArrayList<String>() {{
     add("https://firebasestorage.googleapis.com/v0/b/hackai-eventsearch.appspot.com/o/event.jpg?alt=media&token=b6ba8cb8-45e0-43db-a62d-3cf774c79d3c");
     add("https://firebasestorage.googleapis.com/v0/b/hackai-eventsearch.appspot.com/o/event_1.jpg?alt=media&token=e8b96039-3a50-4756-a063-23f7fcca966f");
@@ -30,5 +30,21 @@ public class RandomImageGenerator {
     Random rand = new Random();
     int randomNum = rand.nextInt(urls.size());
     return urls.get(randomNum);
+  }
+
+  public static String getDistance() {
+    float minX = 2.0f;
+    float maxX = 150.0f;
+    Random rand = new Random();
+    float finalX = rand.nextFloat() * (maxX - minX) + minX;
+    return String.format("%.2f", finalX) + " km";
+  }
+
+  public static String getPrice() {
+    int min = 5;
+    int max = 80;
+    Random r = new Random();
+    int i1 = r.nextInt(max - min + 1) + min;
+    return "$" + i1;
   }
 }

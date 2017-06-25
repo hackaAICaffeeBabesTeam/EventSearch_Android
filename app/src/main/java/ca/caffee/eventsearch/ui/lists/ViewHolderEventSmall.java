@@ -17,6 +17,8 @@ import com.squareup.picasso.Picasso;
 public class ViewHolderEventSmall extends RecyclerView.ViewHolder implements DataViewHolder {
   @BindView(R.id.description) public TextView textViewDescription;
   @BindView(R.id.title) public TextView textViewTitle;
+  @BindView(R.id.distance) public TextView textViewDistance;
+  @BindView(R.id.price) public TextView textViewPrice;
   @BindView(R.id.image) public ImageView imageView;
 
   public ViewHolderEventSmall(View itemView) {
@@ -25,15 +27,17 @@ public class ViewHolderEventSmall extends RecyclerView.ViewHolder implements Dat
   }
 
   @Override public void setData(int position, AdapterItem adapterItem, Context context) {
-    ItemEventSmall eventSmall = (ItemEventSmall) adapterItem;
-    if (eventSmall != null && eventSmall.event != null) {
-      if (eventSmall.event.title != null) {
-        textViewTitle.setText(eventSmall.event.title);
+    ItemEventSmall event = (ItemEventSmall) adapterItem;
+    if (event != null && event.event != null) {
+      if (event.event.title != null) {
+        textViewTitle.setText(event.event.title);
       }
-      if (eventSmall.event.description != null) {
-        textViewDescription.setText(eventSmall.event.description);
+      if (event.event.description != null) {
+        textViewDescription.setText(event.event.description);
       }
-      Picasso.with(imageView.getContext()).load(eventSmall.urlFake).into(imageView);
+      textViewDistance.setText(event.distance);
+      textViewPrice.setText(event.price);
+      Picasso.with(imageView.getContext()).load(event.urlFake).into(imageView);
     }
   }
 

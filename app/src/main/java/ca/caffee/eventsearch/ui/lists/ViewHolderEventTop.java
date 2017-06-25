@@ -22,6 +22,8 @@ public class ViewHolderEventTop extends RecyclerView.ViewHolder implements DataV
   @BindView(R.id.description) public TextView textViewDescription;
   @BindView(R.id.title) public TextView textViewTitle;
   @BindView(R.id.image) public ImageView imageView;
+  @BindView(R.id.price) public TextView textViewPrice;
+  @BindView(R.id.distance) public TextView textViewDistance;
   @BindView(R.id.btnBuy) public Button btnBuy;
   @BindView(R.id.btnNavigate) public Button btnNavigate;
 
@@ -31,15 +33,17 @@ public class ViewHolderEventTop extends RecyclerView.ViewHolder implements DataV
   }
 
   @Override public void setData(int position, AdapterItem adapterItem, Context context) {
-    ItemEventTop eventTop = (ItemEventTop) adapterItem;
-    if (eventTop != null && eventTop.event != null) {
-      if (eventTop.event.title != null) {
-        textViewTitle.setText(eventTop.event.title);
+    ItemEventTop event = (ItemEventTop) adapterItem;
+    if (event != null && event.event != null) {
+      if (event.event.title != null) {
+        textViewTitle.setText(event.event.title);
       }
-      if (eventTop.event.description != null) {
-        textViewDescription.setText(eventTop.event.description);
+      if (event.event.description != null) {
+        textViewDescription.setText(event.event.description);
       }
-      Picasso.with(imageView.getContext()).load(eventTop.urlFake).into(imageView);
+      textViewDistance.setText(event.distance);
+      textViewPrice.setText(event.price);
+      Picasso.with(imageView.getContext()).load(event.urlFake).into(imageView);
       btnNavigate.setOnClickListener(new View.OnClickListener() {
         @Override public void onClick(View view) {
           Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q=New+York+NY"));
