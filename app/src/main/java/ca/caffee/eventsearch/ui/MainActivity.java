@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
         return true;
       case R.id.navigation_other:
-        if (currentFragment != null && !(currentFragment instanceof EventListFragment)) {
+        if (currentFragment != null && !(currentFragment instanceof NotificationsFragment)) {
           currentFragment = fragments.get(2);
           getSupportFragmentManager().beginTransaction()
               .replace(R.id.fragment_container, currentFragment)
@@ -128,6 +128,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     fragments.clear();
     fragments.add(EventListFragment.newInstance());
     fragments.add(GoingFragment.newInstance());
-    fragments.add(EventListFragment.newInstance());
+    fragments.add(NotificationsFragment.newInstance());
   }
 }

@@ -44,6 +44,7 @@ dependencies {
   implementation 'com.android.support.constraint:constraint-layout:1.0.2'
   implementation 'org.parceler:parceler-api:1.1.8'
   annotationProcessor 'org.parceler:parceler:1.1.8'
+  implementation 'de.hdodenhof:circleimageview:2.1.0'
 }
 
 

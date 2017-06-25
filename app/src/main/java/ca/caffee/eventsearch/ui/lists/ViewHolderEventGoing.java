@@ -7,11 +7,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ca.caffee.eventsearch.R;
+import ca.caffee.eventsearch.ui.EventActivity;
 import com.squareup.picasso.Picasso;
+import org.parceler.Parcels;
 
 /**
  * Created by mtajc on 25.06.2017.
@@ -25,6 +28,7 @@ public class ViewHolderEventGoing extends RecyclerView.ViewHolder implements Dat
   @BindView(R.id.price) public TextView textViewPrice;
   @BindView(R.id.distance) public TextView textViewDistance;
   @BindView(R.id.btnNavigate) public Button btnNavigate;
+  @BindView(R.id.mainRelative) public RelativeLayout relativeLayout;
 
   public ViewHolderEventGoing(View itemView) {
     super(itemView);
@@ -32,7 +36,7 @@ public class ViewHolderEventGoing extends RecyclerView.ViewHolder implements Dat
   }
 
   @Override public void setData(int position, AdapterItem adapterItem, Context context) {
-    ItemEventGoing event = (ItemEventGoing) adapterItem;
+    final ItemEventGoing event = (ItemEventGoing) adapterItem;
     if (event != null) {
       if (event.title != null) {
         textViewTitle.setText(event.title);
@@ -47,6 +51,13 @@ public class ViewHolderEventGoing extends RecyclerView.ViewHolder implements Dat
         @Override public void onClick(View view) {
           Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q=New+York+NY"));
           btnNavigate.getContext().startActivity(intent);
+        }
+      });
+      relativeLayout.setOnClickListener(new View.OnClickListener() {
+        @Override public void onClick(View view) {
+          Intent intent = new Intent(relativeLayout.getContext(), EventActivity.class);
+          intent.putExtra("eventGoing", Parcels.wrap(event));
+          relativeLayout.getContext().startActivity(intent);
         }
       });
     }

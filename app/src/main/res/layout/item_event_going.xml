@@ -114,6 +114,7 @@
           android:layout_height="wrap_content"
           android:background="?android:attr/selectableItemBackgroundBorderless"
           android:text="Navigate"
+          android:textColor="@color/colorPrimary"
           />
 
     </LinearLayout>

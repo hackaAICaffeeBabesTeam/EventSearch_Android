@@ -21,10 +21,10 @@
 
     <ImageView
         android:id="@+id/image"
-        android:transitionName="image"
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:scaleType="centerCrop"
+        android:transitionName="image"
         />
 
     <TextView
@@ -115,6 +115,7 @@
           android:layout_height="wrap_content"
           android:background="?android:attr/selectableItemBackgroundBorderless"
           android:text="Navigate"
+          android:textColor="@color/colorPrimary"
           />
 
 
@@ -124,6 +125,7 @@
           android:layout_height="wrap_content"
           android:background="?android:attr/selectableItemBackgroundBorderless"
           android:text="Buy ticket"
+          android:textColor="@color/colorPrimary"
           />
     </LinearLayout>
 
