@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainRelative"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="ca.caffee.eventsearch.ui.EventActivity"
@@ -15,4 +16,47 @@
       android:transitionName="image"
       />
 
+
+  <TextView
+      android:id="@+id/title"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_below="@+id/image"
+      android:layout_margin="12dp"
+      android:ellipsize="end"
+      android:fontFamily="sans-serif"
+      android:gravity="left|top"
+      android:maxLines="2"
+      android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+      android:textSize="25sp"
+      android:textStyle="bold"
+      tools:text="Test event"
+      />
+
+
+  <TextView
+      android:id="@+id/description"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_below="@+id/title"
+      android:layout_marginLeft="12dp"
+      android:layout_marginRight="12dp"
+      android:ellipsize="end"
+      android:fontFamily="sans-serif-light"
+      android:maxLines="10"
+      android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+      android:textSize="15sp"
+      tools:text="Test event"
+      />
+
+  <android.support.design.widget.FloatingActionButton
+      android:id="@+id/fab"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentRight="true"
+      android:layout_marginRight="24dp"
+      android:layout_marginTop="150dp"
+      android:src="@drawable/ic_local_activity_white_24dp"
+      app:fabSize="normal"
+      />
 </RelativeLayout>
