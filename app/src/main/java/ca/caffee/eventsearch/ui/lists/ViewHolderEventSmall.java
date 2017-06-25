@@ -40,9 +40,21 @@ public class ViewHolderEventSmall extends RecyclerView.ViewHolder implements Dat
       if (event.event.description != null) {
         textViewDescription.setText(event.event.description);
       }
-      textViewDistance.setText(event.distance);
-      textViewPrice.setText(event.price);
-      Picasso.with(imageView.getContext()).load(event.urlFake).into(imageView);
+      if (event.event.url != null) {
+        Picasso.with(imageView.getContext()).load(event.event.url).into(imageView);
+      } else {
+        Picasso.with(imageView.getContext()).load(event.urlFake).into(imageView);
+      }
+      if (event.event.distance != null) {
+        textViewDistance.setText(event.event.distance);
+      } else {
+        textViewDistance.setText(event.distance);
+      }
+      if (event.event.price != null) {
+        textViewPrice.setText(event.price);
+      } else {
+        textViewPrice.setText(event.price);
+      }
       relativeLayout.setOnClickListener(new View.OnClickListener() {
         @Override public void onClick(View view) {
           Intent intent = new Intent(relativeLayout.getContext(), EventActivity.class);

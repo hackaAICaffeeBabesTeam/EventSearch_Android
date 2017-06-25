@@ -15,6 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ca.caffee.eventsearch.R;
+import ca.caffee.eventsearch.calendar.Event;
 import ca.caffee.eventsearch.ui.lists.ItemEventGoing;
 import ca.caffee.eventsearch.ui.lists.ItemEventSmall;
 import ca.caffee.eventsearch.ui.lists.ItemEventTop;
@@ -28,6 +29,7 @@ public class EventActivity extends AppCompatActivity {
   @BindView(R.id.title) TextView textViewTitle;
   @BindView(R.id.description) TextView textViewDescription;
   @BindView(R.id.mainRelative) RelativeLayout mainRelative;
+  Event event;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -35,7 +37,7 @@ public class EventActivity extends AppCompatActivity {
     ButterKnife.bind(this);
     if (getIntent() != null && getIntent().hasExtra("eventSmall")) {
       ItemEventSmall itemEventSmall = Parcels.unwrap(getIntent().getParcelableExtra("eventSmall"));
-      setEvent(itemEventSmall.urlFake, itemEventSmall.event.title, itemEventSmall.event.description);
+      setEvent(itemEventSmall.urlFake, itemEventSmall.event.title, itemEventSmall.event.description, itemEventSmall.event);
       Log.d(TAG, "onCreate: ");
     } else if (getIntent() != null && getIntent().hasExtra("eventTop")) {
       ItemEventTop itemEventTop = Parcels.unwrap(getIntent().getParcelableExtra("eventTop"));
@@ -45,17 +47,29 @@ public class EventActivity extends AppCompatActivity {
       } else {
         url = itemEventTop.urlFake;
       }
-      setEvent(url, itemEventTop.event.title, itemEventTop.event.description);
+      setEvent(url, itemEventTop.event.title, itemEventTop.event.description, itemEventTop.event);
       Log.d(TAG, "onCreate: ");
     } else if (getIntent() != null && getIntent().hasExtra("eventGoing")) {
       ItemEventGoing itemEventGoing = Parcels.unwrap(getIntent().getParcelableExtra("eventGoing"));
-      setEvent(itemEventGoing.urlFake, itemEventGoing.title, itemEventGoing.desc);
+      setEvent(itemEventGoing.urlFake, itemEventGoing.title, itemEventGoing.desc, null);
       Log.d(TAG, "onCreate: ");
     }
     Log.d(TAG, "onCreate: ");
   }
 
   @OnClick(R.id.fab) public void onClickFab() {
+    if (event != null) {
+      if (event.eventbriteLink != null) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(event.eventbriteLink));
+        startActivity(intent);
+        return;
+      }
+      if (event.stubHubLink != null) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(event.stubHubLink));
+        startActivity(intent);
+        return;
+      }
+    }
     try {
       Intent intent = getPackageManager().getLaunchIntentForPackage("com.stubhub");
       startActivity(intent);
@@ -85,7 +99,8 @@ public class EventActivity extends AppCompatActivity {
     }
   };
 
-  private void setEvent(String url, String title, String description) {
+  private void setEvent(String url, String title, String description, Event event) {
+    this.event = event;
     Picasso.with(this).load(url).into(target);
     if (title != null) {
       textViewTitle.setText(title);

@@ -65,6 +65,11 @@ public class ViewHolderEventTop extends RecyclerView.ViewHolder implements DataV
       });
       btnBuy.setOnClickListener(new View.OnClickListener() {
         @Override public void onClick(View view) {
+          if (event.event.eventbriteLink != null) {
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(event.event.eventbriteLink));
+            btnBuy.getContext().startActivity(intent);
+            return;
+          }
           if (event.event.stubHubLink != null) {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(event.event.stubHubLink));
             btnBuy.getContext().startActivity(intent);
